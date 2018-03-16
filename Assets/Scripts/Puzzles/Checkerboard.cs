@@ -12,7 +12,7 @@ public class Checkerboard : MonoBehaviour {
 
     public Image[] images;
     BoxCollider2D collider;
-    Transform colliderObject;
+    public Transform colliderObject;
 
 
     void Start() {
@@ -23,7 +23,6 @@ public class Checkerboard : MonoBehaviour {
 
 
         collider = images[0].GetComponentInChildren<BoxCollider2D>();
-        colliderObject = images[1].transform.GetChild(0);
     }
 
 
