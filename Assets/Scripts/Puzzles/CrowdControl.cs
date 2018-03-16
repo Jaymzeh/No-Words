@@ -6,24 +6,43 @@ using UnityEngine.UI;
 public class CrowdControl : MonoBehaviour {
 
     public Transform player;
-    public Transform[] group;
-    public Transform[] wheel;
-    public int[] range;
+    public Image[] group;
+    public Image[] wordImages;
+    public Transform wheel;
+    public int target;
     public int threshold = 10;
     public float rotationSpeed = 1;
+    public int delta = 0;
 
     void Update() {
-        for (int i = 0; i < 2; i++) {
-            if (Vector3.Distance(player.position, wheel[i].position) <= 2) {
-                if (Input.GetAxis("Submit") >= 0)
-                    wheel[i].Rotate(0, 0, rotationSpeed);
+
+        if (Vector3.Distance(player.position, wheel.position) <= 2) {
+            int move = (int)Input.GetAxis("Horizontal");
+            if (move != 0) {
+                wheel.Rotate(0, 0, rotationSpeed);
+
+                delta += 1 * move;
+
+                group[0].transform.Translate(-1*move, 0, 0);
+                wordImages[0].transform.position = group[0].transform.position;
+                group[1].transform.Translate(1*move, 0, 0);
+                wordImages[1].transform.position = group[1].transform.position;
+
             }
+        }
+
+        if (Input.GetAxis("Submit") > 0){
+            if (InRange())
+                Debug.Log("SOLVED");
+            else
+                Debug.Log("Not Solved");
         }
     }
 
-    bool InRange(int index) {
-        if (wheel[index].eulerAngles.z >= range[index] - threshold && wheel[index].eulerAngles.z <= range[index] + threshold)
+    bool InRange() {
+        if (delta >= target - threshold && delta <= target + threshold)
             return true;
         return false;
     }
+    
 }
