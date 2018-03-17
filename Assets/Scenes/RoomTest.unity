@@ -510,7 +510,7 @@ MonoBehaviour:
   - {fileID: 1895429980}
   - {fileID: 432439528}
   wheel: {fileID: 1028039993}
-  target: 285
+  target: 160
   threshold: 10
   rotationSpeed: 1
   delta: 0
