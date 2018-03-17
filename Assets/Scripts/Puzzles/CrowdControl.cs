@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CrowdControl : MonoBehaviour {
+public class CrowdControl : PuzzleBase {
 
     public Transform player;
     public Image[] group;
@@ -23,23 +23,23 @@ public class CrowdControl : MonoBehaviour {
 
                 delta += 1 * move;
 
-                group[0].transform.Translate(-1*move, 0, 0);
-                wordImages[0].transform.position = group[0].transform.position;
-                group[1].transform.Translate(1*move, 0, 0);
-                wordImages[1].transform.position = group[1].transform.position;
+                wordImages[0].transform.Translate(-1*move, 0, 0);
+                wordImages[1].transform.Translate(1*move, 0, 0);
 
             }
         }
 
         if (Input.GetAxis("Submit") > 0){
-            if (InRange())
+            if (CanSolve()) {
                 Debug.Log("SOLVED");
+                UpdateGameManager();
+            }
             else
                 Debug.Log("Not Solved");
         }
     }
 
-    bool InRange() {
+    protected override bool CanSolve() {
         if (delta >= target - threshold && delta <= target + threshold)
             return true;
         return false;

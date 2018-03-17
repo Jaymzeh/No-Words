@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Checkerboard : MonoBehaviour {
+public class Checkerboard : PuzzleBase {
 
     public string Word { get { return word; } private set { word = value; } }
     string word;
@@ -38,13 +38,14 @@ public class Checkerboard : MonoBehaviour {
                 images[0].transform.position = colliderObject.transform.position;
 
                 Debug.Log("SOLVED!");
+                UpdateGameManager();
             }
             else
                 Debug.Log("NOT solved");
         }
     }
 
-    bool CanSolve() {
+    protected override bool CanSolve() {
 
         if (collider.bounds.Contains(colliderObject.position))
             return true;
