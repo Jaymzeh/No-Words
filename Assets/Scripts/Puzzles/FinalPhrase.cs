@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FinalPhrase : MonoBehaviour {
+public class FinalPhrase : PuzzleBase {
 
     public Text text;
     int wordIndex = 0;
@@ -58,10 +58,36 @@ public class FinalPhrase : MonoBehaviour {
         text.text = temp;
     }
 
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetAxis("Submit") != 0)
+    protected override bool CanSolve() {
+        int i = 0;
+
+        while (i < 4) {
+            if (spaces[i].word.Contains(GameManager.Instance.sequences[GameManager.sequenceIndex].words[i]))
+                i++;
+            else break;
+        }
+
+        if (i == 4)
+            return true;
+        return false;
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.F1))
             CycleWord(0);
+        if (Input.GetKeyDown(KeyCode.F2))
+            CycleWord(1);
+        if (Input.GetKeyDown(KeyCode.F3))
+            CycleWord(2);
+        if (Input.GetKeyDown(KeyCode.F4))
+            CycleWord(3);
+
+        if (Input.GetAxis("Submit") != 0) {
+            if (CanSolve())
+                Debug.Log("SOLVED");
+            else
+                Debug.Log("Not solved");
+        }
 	}
 }
