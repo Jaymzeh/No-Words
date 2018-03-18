@@ -11,8 +11,9 @@ public class Checkerboard : PuzzleBase {
     public float moveMultiply = 1;
 
     public Image[] images;
-    BoxCollider2D collider;
+    BoxCollider2D colliderBox;
     public Transform colliderObject;
+    public Transform wheel;
 
 
     void Start() {
@@ -22,14 +23,19 @@ public class Checkerboard : PuzzleBase {
         }
 
 
-        collider = images[0].GetComponentInChildren<BoxCollider2D>();
+        colliderBox = images[0].GetComponentInChildren<BoxCollider2D>();
     }
 
 
     void Update() {
 
-        images[0].transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        int moveX = (int)Input.GetAxis("Horizontal");
+        int moveY = (int)Input.GetAxis("Vertical");
 
+        images[0].transform.position += new Vector3(moveX, moveY, 0);
+
+        if (moveX != 0 || moveY != 0)
+            wheel.Rotate(Vector3.forward, 1);
 
 
         if (Input.GetAxis("Submit") > 0) {
@@ -47,7 +53,7 @@ public class Checkerboard : PuzzleBase {
 
     protected override bool CanSolve() {
 
-        if (collider.bounds.Contains(colliderObject.position))
+        if (colliderBox.bounds.Contains(colliderObject.position))
             return true;
 
         return false;
