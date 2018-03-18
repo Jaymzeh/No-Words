@@ -29,8 +29,8 @@ public class Checkerboard : PuzzleBase {
 
     void Update() {
 
-        int moveX = (int)Input.GetAxis("Horizontal");
-        int moveY = (int)Input.GetAxis("Vertical");
+        float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
 
         images[0].transform.position += new Vector3(moveX, moveY, 0);
 

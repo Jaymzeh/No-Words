@@ -6,15 +6,21 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
+    public int sequenceIndex = 0;
+
     [SerializeField]
     public WordSequence[] sequences;
-    public static int sequenceIndex = 0;
+
+    
+    
     public int sequenceState;
 
     public Checkerboard checkerPuzzle;
     public CrowdControl crowdPuzzle;
     public Silhouette silPuzzle;
     public Checkerboard checkerPuzzle2;
+    public FinalPhrase phrasePuzzle;
+
     public static PuzzleBase[] puzzles;
 
     public Animator cameraState;
@@ -45,13 +51,19 @@ public class GameManager : MonoBehaviour {
             checkerPuzzle2.images[1].sprite = sequences[sequenceIndex].checkerImages2[1];
         }
 
-        puzzles = new PuzzleBase[4];
+        puzzles = new PuzzleBase[5];
         puzzles[0] = checkerPuzzle;
         puzzles[1] = crowdPuzzle;
         puzzles[2] = silPuzzle;
         puzzles[3] = checkerPuzzle2;
+        puzzles[4] = phrasePuzzle;
 
         crowdPuzzle.gameObject.SetActive(false);
+
+        GameObject meshObject = (GameObject)Instantiate(sequences[sequenceIndex].mesh, new Vector3(-7.5f, 1.6f, 20), Quaternion.identity);
+        
+        silPuzzle.shadowObject = meshObject.transform;
+        
         silPuzzle.gameObject.SetActive(false);
     }
 
@@ -71,8 +83,13 @@ public class GameManager : MonoBehaviour {
     }
 
     IEnumerator ShowPuzzle() {
-        yield return new WaitForSeconds(2);
-        puzzles[Instance.sequenceState].gameObject.SetActive(true);
+        if (Instance.sequenceState != 4) {
+            yield return new WaitForSeconds(2);
+            puzzles[Instance.sequenceState].gameObject.SetActive(true);
+            
+        }
+        else
+            puzzles[Instance.sequenceState].gameObject.SetActive(true);
     }
 
 }

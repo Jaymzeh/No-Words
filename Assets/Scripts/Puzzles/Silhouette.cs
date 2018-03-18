@@ -8,11 +8,21 @@ public class Silhouette : PuzzleBase {
     public Transform shadowObject;
 
     public Vector3 targetRotation;
+    
     public float threshold = 5;
     public int wordIndex = 0;
 
+    void Start() {
+        
+    }
+
     void Update() {
-        shadowObject.Rotate(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+        //shadowObject.Rotate(new Vector3(Input.GetAxis("Horizontal"),
+        //    Input.GetAxis("Horizontal") * Input.GetAxis("Vertical"),
+        //    Input.GetAxis("Vertical")),Space.World);
+
+        shadowObject.Rotate(Vector3.up, Input.GetAxis("Horizontal"));
+        shadowObject.Rotate(Camera.main.transform.right, Input.GetAxis("Vertical"));
 
         if (Input.GetAxis("Submit") > 0) {
             if (CanSolve()) {
@@ -37,6 +47,11 @@ public class Silhouette : PuzzleBase {
             shadowObject.localEulerAngles.x <= targetRotation.x + threshold) {
 
             if (shadowObject.localEulerAngles.y >= targetRotation.y - threshold &&
+            shadowObject.localEulerAngles.y <= targetRotation.y + threshold) {
+                return true;
+            }
+            else
+                if (shadowObject.localEulerAngles.y >= targetRotation.y - threshold &&
             shadowObject.localEulerAngles.y <= targetRotation.y + threshold) {
                 return true;
             }
